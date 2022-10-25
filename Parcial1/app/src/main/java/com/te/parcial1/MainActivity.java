@@ -27,13 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         productos = new ArrayList<Producto>();
         productos.add(new Producto("Prueba","Prueba",555));
-        productos.add(new Producto("Prueba","Prueba",555));
-        productos.add(new Producto("Prueba","Prueba",555));
-        productos.add(new Producto("Prueba","Prueba",555));
-        productos.add(new Producto("Prueba","Prueba",555));
-        productos.add(new Producto("Prueba","Prueba",555));
-        productos.add(new Producto("Prueba","Prueba",555));
-
 
         recyclerView = (RecyclerView) findViewById(R.id.lista);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());

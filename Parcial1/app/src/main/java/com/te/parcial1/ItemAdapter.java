@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +47,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                list.remove(producto);
                main.setProductos(list);
                main.recyclerView.setAdapter(new ItemAdapter(list,main));
+               Toast.makeText(main,"Se ha eliminado correctamente",Toast.LENGTH_LONG).show();
            }
        });
 

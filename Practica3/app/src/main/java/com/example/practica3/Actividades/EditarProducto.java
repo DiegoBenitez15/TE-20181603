@@ -24,6 +24,7 @@ import com.example.practica3.ModelViews.ProductoViewModel;
 import com.example.practica3.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -103,6 +104,7 @@ public class EditarProducto extends AppCompatActivity {
                 producto.setNombre(nombre);
                 producto.setMarca(marca);
                 producto.setPrecio(Float.parseFloat(precio));
+                uploadImage(imageUri,producto.getImage());
                 mv_productos.update(producto);
             });
             Intent i = new Intent(this, MainActivity.class);
@@ -165,14 +167,11 @@ public class EditarProducto extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            img_view.setImageBitmap(imageBitmap);
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            String path = MediaStore.Images.Media.insertImage(getContentResolver(), imageBitmap, "Title", null);
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(), imageBitmap, "IMG_" + System.currentTimeMillis(), null);
             imageUri = Uri.parse(path);
-            img_view.setImageBitmap(imageBitmap);
-            mv_productos.getProducto(id).observe(EditarProducto.this,producto -> {
-                uploadImage(imageUri,producto.getImage());
-            });
         }
         if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK) {
             try {
@@ -184,9 +183,6 @@ public class EditarProducto extends AppCompatActivity {
                 e.printStackTrace();
                 Toast.makeText(EditarProducto.this, "Algo salio mal", Toast.LENGTH_LONG).show();
             }
-            mv_productos.getProducto(id).observe(EditarProducto.this,producto -> {
-                uploadImage(imageUri,producto.getImage());
-            });
         }
         if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             try {
@@ -198,9 +194,6 @@ public class EditarProducto extends AppCompatActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            mv_productos.getProducto(id).observe(EditarProducto.this,producto -> {
-                uploadImage(imageUri,producto.getImage());
-            });
         }
     }
 
@@ -232,40 +225,24 @@ public class EditarProducto extends AppCompatActivity {
     public String uploadImage(Uri imageUri,String id)
     {
         if (imageUri != null) {
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
+            final StorageReference imageRef = storageReference.child(id);
 
-            StorageReference ref = storageReference.child(id);
-
-            ref.putFile(imageUri)
-                    .addOnSuccessListener(
-                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                                {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(EditarProducto.this,"Se ha registrado el articulo adecuadamente",Toast.LENGTH_LONG).show();
-                                }
-                            })
-
-                    .addOnFailureListener(new OnFailureListener() {
+            imageRef.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            progressDialog.dismiss();
-                            Toast.makeText(EditarProducto.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        public void onSuccess(UploadTask.TaskSnapshot snapshot) {
+                            Task<Uri> downloadUri = imageRef.getDownloadUrl();
+                            while (!downloadUri.isSuccessful());
+                            Uri downloadUrl = downloadUri.getResult();
+                            downloadUrl.toString();
                         }
                     })
-                    .addOnProgressListener(
-                            new OnProgressListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
-                                {
-                                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                                    progressDialog.setMessage("Uploaded " + (int)progress + "%");
-                                }
-                            });
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // show message on failure may be network/disk ?
+                        }
+                    });
             return id;
         }
         return null;

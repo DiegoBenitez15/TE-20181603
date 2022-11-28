@@ -18,6 +18,7 @@ import com.example.practica3.ModelViews.ProductoViewModel;
 import com.example.practica3.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -80,39 +81,23 @@ public class MainActivity extends AppCompatActivity {
     public String uploadImage(Uri imageUri)
     {
         if (imageUri != null) {
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
             String id ="images/" + UUID.randomUUID().toString();
+            final StorageReference imageRef = storageReference.child(id);
 
-            StorageReference ref = storageReference.child(id);
-
-            ref.putFile(imageUri)
-                    .addOnSuccessListener(
-                        new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            imageRef.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                        {
-                            progressDialog.dismiss();
-                            Toast.makeText(MainActivity.this,"Se ha registrado el articulo adecuadamente",Toast.LENGTH_LONG).show();
+                        public void onSuccess(UploadTask.TaskSnapshot snapshot) {
+                            Task<Uri> downloadUri = imageRef.getDownloadUrl();
+                            while (!downloadUri.isSuccessful());
+                            Uri downloadUrl = downloadUri.getResult();
+                            downloadUrl.toString();
                         }
                     })
-
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            progressDialog.dismiss();
-                            Toast.makeText(MainActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(
-                        new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
-                        {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Uploaded " + (int)progress + "%");
+                        public void onFailure(@NonNull Exception exception) {
+                            // show message on failure may be network/disk ?
                         }
                     });
             return id;

@@ -128,12 +128,11 @@ public class AgregarProducto extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imgview.setImageBitmap(imageBitmap);
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            String path = MediaStore.Images.Media.insertImage(getContentResolver(), imageBitmap, "Title", null);
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(), imageBitmap, "IMG_" + System.currentTimeMillis(), null);
             imageUri = Uri.parse(path);
-            imgview.setImageBitmap(imageBitmap);
-
         }
         if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK) {
             try {

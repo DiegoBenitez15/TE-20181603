@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    android:minHeight="100dp"
+    app:cardElevation="6dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/linear_layout">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/producto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/foto_item"
+                    android:layout_width="100sp"
+                    android:layout_height="100sp"
+                    android:layout_margin="10sp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_launcher_background" />
+
+                <LinearLayout
+                    android:layout_width="287dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5sp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="31dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/n_producto"
+                            android:layout_width="226dp"
+                            android:layout_height="wrap_content"
+                            android:padding="5sp"
+                            android:text="TextView"
+                            android:textSize="8sp" />
+
+                        <ImageView
+                            android:id="@+id/info_producto"
+                            android:layout_width="10sp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:padding="5sp"
+                            app:srcCompat="@android:drawable/ic_dialog_info" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/p_producto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5sp"
+                        android:text="TextView" />
+
+                    <TextView
+                        android:id="@+id/d_producto"
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        android:padding="5sp"
+                        android:text="TextView" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

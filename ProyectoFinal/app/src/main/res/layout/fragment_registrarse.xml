@@ -38,7 +38,7 @@
                     android:layout_height="170dp">
 
                     <ImageView
-                        android:id="@+id/foto"
+                        android:id="@+id/img_perfil2"
                         android:layout_width="150sp"
                         android:layout_height="150sp"
                         android:onClick="clickFoto"
@@ -50,7 +50,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <EditText
-                    android:id="@+id/nombre"
+                    android:id="@+id/nmbr_perfil2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15sp"
@@ -74,7 +74,7 @@
                     android:inputType="textPersonName" />
 
                 <EditText
-                    android:id="@+id/correo"
+                    android:id="@+id/corr_perfil2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15sp"
@@ -110,7 +110,7 @@
                     android:inputType="textPassword"/>
 
                 <EditText
-                    android:id="@+id/contacto"
+                    android:id="@+id/cnt_perfil2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15sp"

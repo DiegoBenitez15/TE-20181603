@@ -62,7 +62,7 @@
                         android:layout_marginBottom="15sp"
                         android:ems="10"
                         android:hint="Ingresar Contrasena"
-                        android:inputType="textPersonName" />
+                        android:inputType="textPassword" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

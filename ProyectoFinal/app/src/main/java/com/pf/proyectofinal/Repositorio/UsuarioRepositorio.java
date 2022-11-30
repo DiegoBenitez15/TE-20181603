@@ -30,6 +30,12 @@ public class UsuarioRepositorio {
         );
     }
 
+    public static void update(Usuario u){
+        AppDatabase.databaseWriteExecutor.execute(() ->
+                usuarioDao.update(u)
+        );
+    }
+
     public LiveData<Usuario> getUser(String correo,String usuario){
         return usuarioDao.getUser(correo,usuario);
     }

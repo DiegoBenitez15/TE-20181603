@@ -22,7 +22,6 @@ import com.pf.proyectofinal.Entidades.Usuario;
 import com.pf.proyectofinal.Fragmentos.IniciarSesionFragment;
 import com.pf.proyectofinal.Fragmentos.RecuperarContrasenaFragment;
 import com.pf.proyectofinal.Fragmentos.RegistrarseFragment;
-import com.pf.proyectofinal.Modelos.CategoriaViewModel;
 import com.pf.proyectofinal.Modelos.UsuarioViewModel;
 import com.pf.proyectofinal.R;
 import com.pf.proyectofinal.Servicios.FirebaseServicios;
@@ -72,15 +71,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void registarUsuario(View view){
-        String nombre = String.valueOf(((EditText) findViewById(R.id.nombre)).getText());
+        String nombre = String.valueOf(((EditText) findViewById(R.id.nmbr_perfil2)).getText());
         String usuario = String.valueOf(((EditText) findViewById(R.id.usuario)).getText());
-        String correo = String.valueOf(((EditText) findViewById(R.id.correo)).getText());
+        String correo = String.valueOf(((EditText) findViewById(R.id.corr_perfil2)).getText());
         String contrasena= String.valueOf(((EditText) findViewById(R.id.contrasena)).getText());
         String contrasena2= String.valueOf(((EditText) findViewById(R.id.contrasena2)).getText());
-        String contacto= String.valueOf(((EditText) findViewById(R.id.contacto)).getText());
+        String contacto= String.valueOf(((EditText) findViewById(R.id.cnt_perfil2)).getText());
         Bitmap img = null;
         try {
-            img = ((BitmapDrawable) ((ImageView) findViewById(R.id.foto)).getDrawable()).getBitmap();
+            img = ((BitmapDrawable) ((ImageView) findViewById(R.id.img_perfil2)).getDrawable()).getBitmap();
         } catch (ClassCastException e) {
             img = null;
         }
@@ -179,14 +178,14 @@ public class MainActivity extends AppCompatActivity {
             if(requestCode == 200){
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
-                ((ImageView) findViewById(R.id.foto)).setImageBitmap(imageBitmap);
+                ((ImageView) findViewById(R.id.img_perfil2)).setImageBitmap(imageBitmap);
             }
             else if(requestCode == 201){
                 final InputStream imageStream;
                 try {
                     imageStream = getContentResolver().openInputStream((Uri) data.getData());
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    ((ImageView) findViewById(R.id.foto)).setImageBitmap(selectedImage);
+                    ((ImageView) findViewById(R.id.img_perfil2)).setImageBitmap(selectedImage);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }

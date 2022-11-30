@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/menu_top" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_baseline_home_24"
@@ -16,5 +16,19 @@
             android:id="@+id/nav_categorias"
             android:icon="@drawable/ic_baseline_category_24"
             android:title="@string/menu_categorias" />
+    </group>
+    <group android:id="@+id/menu_bottom"  android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_baseline_question_mark_24"
+            android:title="Ayuda" />
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="Perfil" />
+        <item
+            android:id="@+id/nav_salir"
+            android:icon="@drawable/ic_baseline_logout_24"
+            android:title="Cerrar Sesion" />
     </group>
 </menu>

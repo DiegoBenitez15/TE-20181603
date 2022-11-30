@@ -3,8 +3,6 @@ package com.pf.proyectofinal.Actividades;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -20,12 +18,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.pf.proyectofinal.Adaptadores.ProductoAdapter;
-import com.pf.proyectofinal.Entidades.Producto;
 import com.pf.proyectofinal.Fragmentos.AgregarProductoFragment;
 import com.pf.proyectofinal.Fragmentos.EditarProductoFragment;
 import com.pf.proyectofinal.Fragmentos.ListadoProductoFragment;
-import com.pf.proyectofinal.Fragmentos.RecuperarContrasenaFragment;
 import com.pf.proyectofinal.Modelos.ProductoViewModel;
 import com.pf.proyectofinal.R;
 import com.pf.proyectofinal.Servicios.FirebaseServicios;
@@ -70,7 +65,7 @@ public class ProductoActivity extends AppCompatActivity {
         String prec_producto = String.valueOf(((EditText) findViewById(R.id.precio_prod)).getText());
         String desc_producto = String.valueOf(((EditText) findViewById(R.id.descripcion_prod)).getText());
         try {
-            img = ((BitmapDrawable) ((ImageView) findViewById(R.id.foto)).getDrawable()).getBitmap();
+            img = ((BitmapDrawable) ((ImageView) findViewById(R.id.img_perfil2)).getDrawable()).getBitmap();
         } catch (ClassCastException e) {
             img = null;
         }
@@ -135,7 +130,7 @@ public class ProductoActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ImageView img = findViewById(R.id.foto);
+        ImageView img = findViewById(R.id.img_perfil2);
         if(img == null){
             img = findViewById(R.id.foto2);
         }

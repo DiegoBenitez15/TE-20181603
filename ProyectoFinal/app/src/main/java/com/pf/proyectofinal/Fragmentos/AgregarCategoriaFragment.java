@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -101,7 +102,7 @@ public class AgregarCategoriaFragment extends Fragment {
                     String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(),img));
                     Categoria c = new Categoria(nombre,url_img);
                     categoriaViewModel.insert(c);
-                    getFragmentManager().popBackStackImmediate();
+                    NavHostFragment.findNavController(AgregarCategoriaFragment.this).popBackStack();
                 } else {
                     Toast.makeText(getContext(), "No se pueden dejar espacios vacios", Toast.LENGTH_SHORT).show();
                 }

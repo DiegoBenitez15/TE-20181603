@@ -14,6 +14,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -106,7 +107,7 @@ public class AgregarProductoFragment extends Fragment {
             public void onClick(View view) {
                 Bitmap img = null;
                 long id = getArguments().getLong("id");
-                String categoria = ((Spinner)binding.categoria).getSelectedItem().toString();
+                Object categoria = ((Spinner)binding.categoria).getSelectedItem();
                 String prec_producto = String.valueOf((binding.precioProd).getText());
                 String desc_producto = String.valueOf(((binding.descripcionProd)).getText());
                 try {
@@ -116,9 +117,9 @@ public class AgregarProductoFragment extends Fragment {
                 }
 
 
-                if(img != null && !prec_producto.equals("") && !desc_producto.equals("")){
+                if(categoria != null && img != null && !prec_producto.equals("") && !desc_producto.equals("")){
                     Bitmap finalImg = img;
-                    categoriaViewModel.getCategoriaByName(categoria).observe(getViewLifecycleOwner(), categoria1 -> {
+                    categoriaViewModel.getCategoriaByName(categoria.toString()).observe(getViewLifecycleOwner(), categoria1 -> {
                         String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(), finalImg));
                         Producto p = null;
 
@@ -129,18 +130,11 @@ public class AgregarProductoFragment extends Fragment {
                             p = new Producto(Double.parseDouble(prec_producto), desc_producto, url_img, id);
                         }
                         productoViewModel.insert(p);
-                        getFragmentManager().popBackStackImmediate();
+                        NavHostFragment.findNavController(AgregarProductoFragment.this).popBackStack();
                     });
                 } else {
                     Toast.makeText(getContext(), "No se pueden dejar espacios vacios", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        binding.volverProducto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().popBackStackImmediate();
             }
         });
     }

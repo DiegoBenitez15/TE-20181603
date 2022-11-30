@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -105,18 +106,11 @@ public class EditarCategoriaFragment extends Fragment {
                         categoria.setNombre(nombre);
                         categoria.setImagen(url_img);
                         categoriaViewModel.update(categoria);
-                        getFragmentManager().popBackStackImmediate();
+                        NavHostFragment.findNavController(EditarCategoriaFragment.this).popBackStack();
                     });
                 } else {
                     Toast.makeText(getContext(), "No se pueden dejar espacios vacios", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        binding.volverProducto3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().popBackStackImmediate();
             }
         });
     }

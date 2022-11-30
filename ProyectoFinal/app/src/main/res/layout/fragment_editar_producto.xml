@@ -82,8 +82,8 @@
                 android:layout_height="77dp">
 
                 <LinearLayout
-                    android:layout_width="201dp"
-                    android:layout_height="59dp"
+                    android:layout_width="100dp"
+                    android:layout_height="53dp"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -98,12 +98,6 @@
                         android:onClick="editarProducto"
                         android:text="Editar" />
 
-                    <Button
-                        android:id="@+id/volver_producto2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5sp"
-                        android:text="Volver" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

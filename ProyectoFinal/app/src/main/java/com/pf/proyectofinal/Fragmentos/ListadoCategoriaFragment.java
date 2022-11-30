@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.pf.proyectofinal.databinding.FragmentListadoProductoBinding;
 public class ListadoCategoriaFragment extends Fragment {
     private FragmentListadoCategoriaBinding binding;
     private CategoriaViewModel categoriaViewModel;
+    private ProductoViewModel productoViewModel;
     private FirebaseServicios firebaseServicios;
 
 
@@ -48,27 +50,23 @@ public class ListadoCategoriaFragment extends Fragment {
 
 
         categoriaViewModel = new ViewModelProvider(this).get(CategoriaViewModel.class);
+        productoViewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
         firebaseServicios = new FirebaseServicios();
 
         RecyclerView recyclerView = binding.lista;
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
-        recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         categoriaViewModel.getAll().observe(getViewLifecycleOwner(), categorias -> {
-            CategoriaAdapter adapter =  new CategoriaAdapter(this,categorias,categoriaViewModel);
+            CategoriaAdapter adapter =  new CategoriaAdapter(this,categorias,categoriaViewModel,productoViewModel);
             recyclerView.setAdapter(adapter);
         });
 
         binding.floatingActionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                AgregarCategoriaFragment fragment2 = new AgregarCategoriaFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_dashboard, fragment2);
-                fragmentTransaction.setReorderingAllowed(true).addToBackStack(null).commit();
+                NavHostFragment.findNavController(ListadoCategoriaFragment.this)
+                        .navigate(R.id.action_nav_categorias_to_nav_crear_categorias);
             }
         });
     }

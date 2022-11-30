@@ -28,6 +28,9 @@ public interface ProductoDao {
     @Query("SELECT * FROM producto WHERE categoria = :categoria")
     LiveData<List<Producto>> getProductoByCategoria(long categoria);
 
+    @Query("SELECT * FROM producto WHERE" + " descripcion LIKE '%' || :palabra || '%' ")
+    LiveData<List<Producto>> getProductoBusqueda(String palabra);
+
     @Update
     void update(Producto p);
 

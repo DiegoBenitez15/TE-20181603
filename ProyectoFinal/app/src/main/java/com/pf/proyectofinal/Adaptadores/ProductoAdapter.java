@@ -2,7 +2,6 @@ package com.pf.proyectofinal.Adaptadores;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,18 +16,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pf.proyectofinal.Actividades.ProductoActivity;
+import com.pf.proyectofinal.Entidades.CompraProductos;
 import com.pf.proyectofinal.Entidades.Producto;
+import com.pf.proyectofinal.Entidades.ProductoCarro;
 import com.pf.proyectofinal.Fragmentos.AgregarProductoFragment;
 import com.pf.proyectofinal.Fragmentos.DescripcionProductoFragment;
 import com.pf.proyectofinal.Fragmentos.EditarCategoriaFragment;
 import com.pf.proyectofinal.Fragmentos.EditarProductoFragment;
 import com.pf.proyectofinal.Fragmentos.ListadoProductoFragment;
+import com.pf.proyectofinal.Modelos.CompraProductosViewModal;
+import com.pf.proyectofinal.Modelos.ProductoCarroViewModel;
 import com.pf.proyectofinal.Modelos.ProductoViewModel;
 import com.pf.proyectofinal.R;
 import com.pf.proyectofinal.Servicios.FirebaseServicios;
@@ -39,23 +44,16 @@ import java.util.List;
 public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ItemViewHolder>{
     private List<Producto> list;
     private ProductoViewModel productoViewModel;
+    private ProductoCarroViewModel productoCarroViewModel;
     private FirebaseServicios firebaseServicios = new FirebaseServicios();
-    private ListadoProductoFragment listadoProductoFragment;
+    private Fragment listadoProductoFragment;
 
-    public ProductoAdapter(ProductoViewModel productoViewModel) {
-        this.productoViewModel = productoViewModel;
-        list = new ArrayList<Producto>();
-    }
 
-    public ProductoAdapter(ListadoProductoFragment listadoProductoFragment,List<Producto> list,ProductoViewModel productoViewModel) {
+    public ProductoAdapter(Fragment listadoProductoFragment,List<Producto> list,ProductoViewModel productoViewModel, ProductoCarroViewModel productoCarroViewModel) {
         this.listadoProductoFragment = listadoProductoFragment;
         this.productoViewModel = productoViewModel;
         this.list = list;
-    }
-
-    public ProductoAdapter(List<Producto> list, FirebaseServicios firebaseServicios) {
-        this.list = list;
-        this.firebaseServicios = firebaseServicios;
+        this.productoCarroViewModel = productoCarroViewModel;
     }
 
     public void setList(List<Producto> list) {
@@ -85,10 +83,9 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ItemVi
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("id",producto.getCodigo().toString());
-                FragmentManager fragmentManager = listadoProductoFragment.getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_dashboard, DescripcionProductoFragment.class,bundle,null);
-                fragmentTransaction.setReorderingAllowed(true).addToBackStack(null).commit();
+
+                NavHostFragment.findNavController( listadoProductoFragment)
+                        .navigate(R.id.action_nav_productos_to_nav_descripcion_productos,bundle);
             }
         });
 
@@ -103,12 +100,25 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ItemVi
                         if(which == 0){
                             Bundle bundle = new Bundle();
                             bundle.putString("id",producto.getCodigo().toString());
-                            FragmentManager fragmentManager = listadoProductoFragment.getFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.nav_host_fragment_content_dashboard, EditarProductoFragment.class,bundle,null);
-                            fragmentTransaction.setReorderingAllowed(true).addToBackStack(null).commit();
+                            NavHostFragment.findNavController(listadoProductoFragment)
+                                    .navigate(R.id.action_nav_productos_to_nav_editar_productos,bundle);
                         }else {
-                            productoViewModel.delete(producto);
+                            productoCarroViewModel.getByProduto(producto.getCodigo()).observe(listadoProductoFragment.getViewLifecycleOwner(),productoCarros -> {
+                                int c = 0;
+
+                                for(ProductoCarro p:productoCarros){
+                                    if(p.getCompra_id() != -1){
+                                        c = 1;
+                                        break;
+                                    }
+                                }
+
+                                if(c != 1){
+                                    productoViewModel.delete(producto);
+                                }else{
+                                    Toast.makeText(listadoProductoFragment.getContext(), "Este producto ha sido comprado anteriormente", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
                 });

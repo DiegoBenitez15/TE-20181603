@@ -36,6 +36,11 @@ public class ProductoViewModel extends AndroidViewModel {
         return productoRepositorio.getProductoByCategoria(categoria);
     }
 
+    public LiveData<List<Producto>> getProductoBusqueda(String palabra) {
+        return productoRepositorio.getProductoBusqueda(palabra);
+    }
+
+
     public void update(Producto p) {
         ProductoRepositorio.update(p);
     }

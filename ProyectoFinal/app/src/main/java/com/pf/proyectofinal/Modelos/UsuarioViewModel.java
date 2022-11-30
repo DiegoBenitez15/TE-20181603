@@ -29,6 +29,10 @@ public class UsuarioViewModel extends AndroidViewModel {
         UsuarioRepositorio.insert(u);
     }
 
+    public void update(Usuario u) {
+        UsuarioRepositorio.update(u);
+    }
+
     public LiveData<Usuario> getUser(String correo,String usuario){
         return r_usuario.getUser(correo,usuario);
     }

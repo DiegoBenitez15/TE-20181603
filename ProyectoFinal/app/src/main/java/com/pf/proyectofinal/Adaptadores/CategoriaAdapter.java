@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pf.proyectofinal.Actividades.CategoriaActivity;
@@ -38,6 +39,7 @@ import java.util.List;
 public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.ItemViewHolder>{
     private List<Categoria> list;
     private CategoriaViewModel categoriaViewModel;
+    private ProductoViewModel productoViewModel;
     private FirebaseServicios firebaseServicios = new FirebaseServicios();
     private ListadoCategoriaFragment listadoCategoriaFragment;
 
@@ -46,10 +48,11 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Item
         list = new ArrayList<Categoria>();
     }
 
-    public CategoriaAdapter(ListadoCategoriaFragment listadoCategoriaFragment,List<Categoria> list, CategoriaViewModel categoriaViewModel) {
+    public CategoriaAdapter(ListadoCategoriaFragment listadoCategoriaFragment,List<Categoria> list, CategoriaViewModel categoriaViewModel,ProductoViewModel productoViewModel) {
         this.categoriaViewModel = categoriaViewModel;
         this.list = list;
         this.listadoCategoriaFragment = listadoCategoriaFragment;
+        this.productoViewModel = productoViewModel;
     }
 
     public CategoriaAdapter(List<Categoria> list, FirebaseServicios firebaseServicios) {
@@ -88,12 +91,18 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Item
                         if(which == 0){
                             Bundle bundle = new Bundle();
                             bundle.putString("id",String.valueOf(categoria.getId()));
-                            FragmentManager fragmentManager = listadoCategoriaFragment.getFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.nav_host_fragment_content_dashboard, EditarCategoriaFragment.class,bundle,null);
-                            fragmentTransaction.setReorderingAllowed(true).addToBackStack(null).commit();
+                            NavHostFragment.findNavController(listadoCategoriaFragment)
+                                    .navigate(R.id.action_nav_categorias_to_nav_editar_categorias);
                         }else {
-                            categoriaViewModel.delete(categoria);
+
+                            productoViewModel.getProductoByCategoria(categoria.getId()).observe(listadoCategoriaFragment.getViewLifecycleOwner(),productos -> {
+                                if(productos.size() == 0){
+                                    categoriaViewModel.delete(categoria);
+                                } else{
+                                    Toast.makeText(listadoCategoriaFragment.getContext(), "Se encuentran productos relacionado a esta categoria", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                         }
                     }
                 });
@@ -106,10 +115,8 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Item
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putLong("id",categoria.getId());
-                FragmentManager fragmentManager = listadoCategoriaFragment.getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_dashboard, ListadoProductoFragment.class,bundle,null);
-                fragmentTransaction.setReorderingAllowed(true).addToBackStack(null).commit();
+                NavHostFragment.findNavController(listadoCategoriaFragment)
+                        .navigate(R.id.action_nav_categorias_to_nav_productos,bundle);
             }
         });
     }

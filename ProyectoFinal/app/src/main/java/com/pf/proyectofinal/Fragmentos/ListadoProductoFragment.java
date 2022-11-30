@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,9 @@ import android.view.ViewGroup;
 
 import com.pf.proyectofinal.Actividades.ProductoActivity;
 import com.pf.proyectofinal.Adaptadores.ProductoAdapter;
+import com.pf.proyectofinal.Entidades.CompraProductos;
+import com.pf.proyectofinal.Modelos.CompraProductosViewModal;
+import com.pf.proyectofinal.Modelos.ProductoCarroViewModel;
 import com.pf.proyectofinal.Modelos.ProductoViewModel;
 import com.pf.proyectofinal.R;
 import com.pf.proyectofinal.Servicios.FirebaseServicios;
@@ -24,6 +28,7 @@ import com.pf.proyectofinal.databinding.FragmentListadoProductoBinding;
 public class ListadoProductoFragment extends Fragment {
     private FragmentListadoProductoBinding binding;
     private ProductoViewModel productoViewModel;
+    private ProductoCarroViewModel productoCarroViewModel;
     private FirebaseServicios firebaseServicios;
     private long id_categoria;
 
@@ -41,6 +46,7 @@ public class ListadoProductoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         productoViewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
+        productoCarroViewModel = new ViewModelProvider(this).get(ProductoCarroViewModel.class);
         firebaseServicios = new FirebaseServicios();
         RecyclerView recyclerView = binding.listado;
         recyclerView.setHasFixedSize(true);
@@ -50,13 +56,12 @@ public class ListadoProductoFragment extends Fragment {
         try{
             id_categoria = getArguments().getLong("id");
             productoViewModel.getProductoByCategoria(id_categoria).observe(getViewLifecycleOwner(), productos -> {
-                ProductoAdapter adapter = new ProductoAdapter(this, productos, productoViewModel);
+                ProductoAdapter adapter = new ProductoAdapter(this, productos, productoViewModel,productoCarroViewModel);
                 recyclerView.setAdapter(adapter);
             });
         }catch (NullPointerException e){
-            binding.floatingActionButton3.setVisibility(View.INVISIBLE);
             productoViewModel.getAll().observe(getViewLifecycleOwner(), productos -> {
-                ProductoAdapter adapter = new ProductoAdapter(this, productos, productoViewModel);
+                ProductoAdapter adapter = new ProductoAdapter(this, productos, productoViewModel,productoCarroViewModel);
                 recyclerView.setAdapter(adapter);
             });
         }
@@ -69,17 +74,8 @@ public class ListadoProductoFragment extends Fragment {
                     bundle.putLong("id",id_categoria);
                 }
 
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.nav_host_fragment_content_dashboard, AgregarProductoFragment.class,bundle,null);
-                fragmentTransaction.setReorderingAllowed(true).addToBackStack(null).commit();
-            }
-        });
-
-        binding.floatingActionButton3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().popBackStackImmediate();
+                NavHostFragment.findNavController(ListadoProductoFragment.this)
+                        .navigate(R.id.action_nav_productos_to_nav_agregar_productos,bundle);
             }
         });
     }

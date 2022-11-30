@@ -13,10 +13,24 @@
         android:theme="@style/Theme.ProyectoFinal"
         tools:targetApi="31">
         <activity
+            android:name=".Actividades.SplashScreenActivity"
+            android:theme="@style/SplashTheme"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="android.intent.category.LAUNCHER" />
+        </activity>
+        <activity
             android:name=".Actividades.DashboardActivity"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.ProyectoFinal.NoActionBar">
+            android:theme="@style/Theme.ProyectoFinal.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -37,12 +51,7 @@
         </activity>
         <activity
             android:name=".Actividades.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
 
             <meta-data
                 android:name="android.app.lib_name"

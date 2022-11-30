@@ -35,6 +35,10 @@ public class ProductoRepositorio {
         return productoDao.getProductoByCategoria(categoria);
     }
 
+    public LiveData<List<Producto>> getProductoBusqueda(String palabra){
+        return productoDao.getProductoBusqueda(palabra);
+    }
+
     public static void insert(Producto p){
         AppDatabase.databaseWriteExecutor.execute(() ->
                 productoDao.insert(p)

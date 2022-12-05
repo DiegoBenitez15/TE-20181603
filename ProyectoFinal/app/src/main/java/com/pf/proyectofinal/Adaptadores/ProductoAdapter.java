@@ -47,13 +47,21 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ItemVi
     private ProductoCarroViewModel productoCarroViewModel;
     private FirebaseServicios firebaseServicios = new FirebaseServicios();
     private Fragment listadoProductoFragment;
-
+    private int c = 0;
 
     public ProductoAdapter(Fragment listadoProductoFragment,List<Producto> list,ProductoViewModel productoViewModel, ProductoCarroViewModel productoCarroViewModel) {
         this.listadoProductoFragment = listadoProductoFragment;
         this.productoViewModel = productoViewModel;
         this.list = list;
         this.productoCarroViewModel = productoCarroViewModel;
+    }
+
+    public ProductoAdapter(Fragment listadoProductoFragment,List<Producto> list,ProductoViewModel productoViewModel, ProductoCarroViewModel productoCarroViewModel,int c) {
+        this.listadoProductoFragment = listadoProductoFragment;
+        this.productoViewModel = productoViewModel;
+        this.list = list;
+        this.productoCarroViewModel = productoCarroViewModel;
+        this.c = c;
     }
 
     public void setList(List<Producto> list) {
@@ -84,47 +92,56 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ItemVi
                 Bundle bundle = new Bundle();
                 bundle.putString("id",producto.getCodigo().toString());
 
-                NavHostFragment.findNavController( listadoProductoFragment)
-                        .navigate(R.id.action_nav_productos_to_nav_descripcion_productos,bundle);
+                try {
+                    NavHostFragment.findNavController( listadoProductoFragment)
+                            .navigate(R.id.action_nav_productos_to_nav_descripcion_productos,bundle);
+                } catch (IllegalArgumentException e){
+                    NavHostFragment.findNavController( listadoProductoFragment)
+                            .navigate(R.id.action_nav_buscar_to_nav_descripcion_productos,bundle);
+                }
             }
         });
 
-        holder.opc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Seleccionar opcion");
-                builder.setItems(R.array.opciones_producto, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(which == 0){
-                            Bundle bundle = new Bundle();
-                            bundle.putString("id",producto.getCodigo().toString());
-                            NavHostFragment.findNavController(listadoProductoFragment)
-                                    .navigate(R.id.action_nav_productos_to_nav_editar_productos,bundle);
-                        }else {
-                            productoCarroViewModel.getByProduto(producto.getCodigo()).observe(listadoProductoFragment.getViewLifecycleOwner(),productoCarros -> {
-                                int c = 0;
+        if(c == 0){
+            holder.opc.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setTitle("Seleccionar opcion");
+                    builder.setItems(R.array.opciones_producto, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(which == 0){
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id",producto.getCodigo().toString());
+                                NavHostFragment.findNavController(listadoProductoFragment)
+                                        .navigate(R.id.action_nav_productos_to_nav_editar_productos,bundle);
+                            }else {
+                                productoCarroViewModel.getByProduto(producto.getCodigo()).observe(listadoProductoFragment.getViewLifecycleOwner(),productoCarros -> {
+                                    int c = 0;
 
-                                for(ProductoCarro p:productoCarros){
-                                    if(p.getCompra_id() != -1){
-                                        c = 1;
-                                        break;
+                                    for(ProductoCarro p:productoCarros){
+                                        if(p.getCompra_id() != -1){
+                                            c = 1;
+                                            break;
+                                        }
                                     }
-                                }
 
-                                if(c != 1){
-                                    productoViewModel.delete(producto);
-                                }else{
-                                    Toast.makeText(listadoProductoFragment.getContext(), "Este producto ha sido comprado anteriormente", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                    if(c != 1){
+                                        productoViewModel.delete(producto);
+                                    }else{
+                                        Toast.makeText(listadoProductoFragment.getContext(), "Este producto ha sido comprado anteriormente", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         }
-                    }
-                });
-                builder.show();
-            }
-        });
+                    });
+                    builder.show();
+                }
+            });
+        } else {
+            holder.opc.setVisibility(View.INVISIBLE);
+        }
 
 
     }

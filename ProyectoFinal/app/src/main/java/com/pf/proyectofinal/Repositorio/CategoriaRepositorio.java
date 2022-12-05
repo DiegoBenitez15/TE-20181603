@@ -35,6 +35,10 @@ public class CategoriaRepositorio {
         return categoriaDao.getCategoriaByName(nombre);
     }
 
+    public LiveData<List<Categoria>> getCategoriaBusqueda(String palabra){
+        return categoriaDao.getCategoriaBusqueda(palabra);
+    }
+
     public static void insert(Categoria c){
         AppDatabase.databaseWriteExecutor.execute(() ->
                 categoriaDao.insert(c)

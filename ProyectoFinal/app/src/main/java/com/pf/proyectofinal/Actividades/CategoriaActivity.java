@@ -78,7 +78,7 @@ public class CategoriaActivity extends AppCompatActivity {
 
 
         if(img != null && !nombre.equals("")){
-            String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this,img));
+            String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this,img),null);
             Categoria c = new Categoria(nombre,url_img);
             categoriaViewModel.insert(c);
             this.listarCategoria(view);
@@ -101,7 +101,7 @@ public class CategoriaActivity extends AppCompatActivity {
         if(img !=null && !nombre.equals("")){
             Bitmap finalImg = img;
             categoriaViewModel.getCategoria(Long.parseLong(id)).observe(editarCategoriaFragment.getViewLifecycleOwner(), categoria -> {
-                String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this, finalImg));
+                String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this, finalImg),categoria.getImagen());
                 categoria.setNombre(nombre);
                 categoria.setImagen(url_img);
                 categoriaViewModel.update(categoria);

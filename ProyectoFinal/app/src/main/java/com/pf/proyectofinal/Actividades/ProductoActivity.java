@@ -72,7 +72,7 @@ public class ProductoActivity extends AppCompatActivity {
 
 
         if(img != null && !prec_producto.equals("") && !desc_producto.equals("")){
-            String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this,img));
+            String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this,img),null);
             //Producto p = new Producto(Double.parseDouble(prec_producto),desc_producto,url_img);
             //productoViewModel.insert(p);
             this.listarProducto(view);
@@ -96,7 +96,7 @@ public class ProductoActivity extends AppCompatActivity {
         if(!prec_producto.equals("") && !desc_producto.equals("")){
             Bitmap finalImg = img;
             productoViewModel.getProducto(UUID.fromString(id)).observe(editarProductoFragment.getViewLifecycleOwner(), producto -> {
-                String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this, finalImg));
+                String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this, finalImg),producto.getImg());
                 producto.setImg(url_img);
                 producto.setDescripcion(desc_producto);
                 producto.setPrecio(Double.parseDouble(prec_producto));

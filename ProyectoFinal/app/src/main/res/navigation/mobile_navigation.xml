@@ -100,7 +100,11 @@
         android:id="@+id/nav_buscar"
         android:name="com.pf.proyectofinal.Fragmentos.BuscarProductoFragment"
         android:label="Buscar Producto"
-        tools:layout="@layout/fragment_buscar_producto" />
+        tools:layout="@layout/fragment_buscar_producto" >
+        <action
+            android:id="@+id/action_nav_buscar_to_nav_descripcion_productos"
+            app:destination="@id/nav_descripcion_productos" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_perfil"

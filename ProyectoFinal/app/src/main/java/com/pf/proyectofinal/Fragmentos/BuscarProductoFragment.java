@@ -21,6 +21,8 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.pf.proyectofinal.Adaptadores.ProductoAdapter;
+import com.pf.proyectofinal.Entidades.Producto;
+import com.pf.proyectofinal.Modelos.CategoriaViewModel;
 import com.pf.proyectofinal.Modelos.CompraProductosViewModal;
 import com.pf.proyectofinal.Modelos.ProductoCarroViewModel;
 import com.pf.proyectofinal.Modelos.ProductoViewModel;
@@ -29,9 +31,13 @@ import com.pf.proyectofinal.Servicios.FirebaseServicios;
 import com.pf.proyectofinal.databinding.FragmentBuscarProductoBinding;
 import com.pf.proyectofinal.databinding.FragmentListadoProductoBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BuscarProductoFragment extends Fragment {
     private FragmentBuscarProductoBinding binding;
     private ProductoViewModel productoViewModel;
+    private CategoriaViewModel categoriaViewModel;
     private FirebaseServicios firebaseServicios;
     private ProductoCarroViewModel productoCarroViewModel;
 
@@ -47,10 +53,12 @@ public class BuscarProductoFragment extends Fragment {
         return binding.getRoot();
     }
 
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         productoViewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
         productoCarroViewModel = new ViewModelProvider(this).get(ProductoCarroViewModel.class);
+        categoriaViewModel = new ViewModelProvider(this).get(CategoriaViewModel.class);
         firebaseServicios = new FirebaseServicios();
         RecyclerView recyclerView = binding.buscarLista;
         recyclerView.setHasFixedSize(true);
@@ -62,9 +70,11 @@ public class BuscarProductoFragment extends Fragment {
         binding.buscarInput.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                productoViewModel.getProductoBusqueda(s).observe(getViewLifecycleOwner(), productos -> {
-                    ProductoAdapter adapter = new ProductoAdapter(getParentFragment(), productos, productoViewModel,productoCarroViewModel);
-                    recyclerView.setAdapter(adapter);
+                categoriaViewModel.getCategoriaBusqueda(s).observe(getViewLifecycleOwner(),categorias -> {
+                    productoViewModel.getProductoBusqueda(s).observe(getViewLifecycleOwner(), productos -> {
+                        ProductoAdapter adapter = new ProductoAdapter(getParentFragment(), productos, productoViewModel,productoCarroViewModel,1);
+                        recyclerView.setAdapter(adapter);
+                    });
                 });
                 return true;
             }

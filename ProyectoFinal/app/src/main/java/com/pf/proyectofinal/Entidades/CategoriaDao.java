@@ -27,6 +27,9 @@ public interface CategoriaDao {
     @Query("SELECT * FROM categoria WHERE nombre = :nombre")
     LiveData<Categoria> getCategoriaByName(String nombre);
 
+    @Query("SELECT * FROM categoria WHERE" + " nombre LIKE '%' || :palabra || '%' ")
+    LiveData<List<Categoria>> getCategoriaBusqueda(String palabra);
+
     @Update
     void update(Categoria categoria);
 }

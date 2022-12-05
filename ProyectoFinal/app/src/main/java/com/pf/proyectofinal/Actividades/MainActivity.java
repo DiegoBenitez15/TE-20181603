@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "Usuario o correo ya existente", Toast.LENGTH_SHORT).show();
                 }else{
                     if (contrasena.equals(contrasena2)) {
-                        String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this,finalImg));
+                        String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(this,finalImg),null);
                         Usuario u = new Usuario(usuario, nombre, correo, contrasena, contacto, url_img);
                         model_usuario.insert(u);
                         Toast.makeText(this, "Se registro el usuario correctamente", Toast.LENGTH_SHORT).show();

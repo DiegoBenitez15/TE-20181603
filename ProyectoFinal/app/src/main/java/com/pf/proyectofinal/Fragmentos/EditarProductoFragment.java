@@ -102,7 +102,7 @@ public class EditarProductoFragment extends Fragment {
                 if(!prec_producto.equals("") && !desc_producto.equals("")){
                     Bitmap finalImg = img;
                     productoViewModel.getProducto(UUID.fromString(id)).observe(getViewLifecycleOwner(), producto -> {
-                        String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(), finalImg));
+                        String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(), finalImg),producto.getImg());
                         producto.setImg(url_img);
                         producto.setDescripcion(desc_producto);
                         producto.setPrecio(Double.parseDouble(prec_producto));

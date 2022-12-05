@@ -63,12 +63,14 @@ public class PerfilUsuarioFragment extends Fragment {
         binding.cmbContrasena.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 LayoutInflater inflater = requireActivity().getLayoutInflater();
-              View layout =  inflater.inflate(R.layout.repassword_layout, null);
+                View layout =  inflater.inflate(R.layout.repassword_layout, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                 builder.setView(layout)
                         .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 String old_pass = ((EditText)layout.findViewById(R.id.password_old)).getText().toString();
                                 String new_pass = ((EditText)layout.findViewById(R.id.password_new)).getText().toString();
@@ -97,9 +99,10 @@ public class PerfilUsuarioFragment extends Fragment {
                                 }
                             }
                         });
-                builder.show();
+                builder.create().show();
             }
         });
+
 
         binding.edtPerfil.setOnClickListener(new View.OnClickListener() {
             @Override

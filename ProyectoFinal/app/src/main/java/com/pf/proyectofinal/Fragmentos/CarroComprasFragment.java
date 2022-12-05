@@ -32,6 +32,7 @@ import com.pf.proyectofinal.databinding.FragmentCarroComprasBinding;
 import com.pf.proyectofinal.databinding.FragmentNotificacionBinding;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,6 +48,7 @@ public class CarroComprasFragment extends Fragment {
     private UsuarioViewModel usuarioViewModel;
     private FirebaseServicios firebaseServicios;
     private String usuario;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
 
     @Override
@@ -75,7 +77,7 @@ public class CarroComprasFragment extends Fragment {
             for(ProductoCarro p:productoCarros){
                 sum += p.getCantidad();
                 productoViewModel.getProducto(p.getCodigo_producto()).observe(getViewLifecycleOwner(),producto -> {
-                    String value = String.valueOf(Float.parseFloat(binding.precioCarro.getText().toString()) + (producto.getPrecio() * p.getCantidad()));
+                    String value = String.valueOf(df.format(Float.parseFloat(binding.precioCarro.getText().toString()) + (producto.getPrecio() * p.getCantidad())));
                     binding.precioCarro.setText(value);
                 });
             }

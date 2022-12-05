@@ -99,7 +99,7 @@ public class AgregarCategoriaFragment extends Fragment {
 
 
                 if(img != null && !nombre.equals("")){
-                    String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(),img));
+                    String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(),img),null);
                     Categoria c = new Categoria(nombre,url_img);
                     categoriaViewModel.insert(c);
                     NavHostFragment.findNavController(AgregarCategoriaFragment.this).popBackStack();

@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.pf.proyectofinal.Modelos.UsuarioViewModel;
 import com.pf.proyectofinal.R;
@@ -67,6 +68,9 @@ public class EditarUsuarioFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String usuario = getActivity().getIntent().getExtras().getString("user");
+                String correo = binding.corrPerfil2.getText().toString();
+                String nombre = binding.nmbrPerfil2.getText().toString();
+                String contacto = binding.cntPerfil2.getText().toString();
                 Bitmap img = null;
                 try {
                     img = ((BitmapDrawable) (binding.imgPerfil2).getDrawable()).getBitmap();
@@ -75,14 +79,26 @@ public class EditarUsuarioFragment extends Fragment {
                 }
 
                 Bitmap finalImg = img;
-                usuarioViewModel.getUser(null,usuario).observe(getViewLifecycleOwner(), usuario1 -> {
-                    usuario1.setNombre(binding.nmbrPerfil2.getText().toString());
-                    usuario1.setCorreo(binding.corrPerfil2.getText().toString());
-                    usuario1.setContacto(binding.cntPerfil2.getText().toString());
-                    usuario1.setUrl_img(firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(),finalImg)));
-                    usuarioViewModel.update(usuario1);
-                    NavHostFragment.findNavController(EditarUsuarioFragment.this).popBackStack();
-                });
+                if(img != null && !nombre.equals("") && !correo.equals("") && !contacto.equals("") ){
+                    usuarioViewModel.getUser(null,usuario).observe(getViewLifecycleOwner(), usuario1 -> {
+
+                        usuarioViewModel.getUser(correo,null).observe(getViewLifecycleOwner(),usuario2 -> {
+                            if(usuario2 == null || correo.equals(usuario1.getCorreo())){
+                                usuario1.setCorreo(correo);
+                                usuario1.setNombre(nombre);
+                                usuario1.setContacto(contacto);
+                                usuario1.setUrl_img(firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(),finalImg),usuario1.getUrl_img()));
+                                usuarioViewModel.update(usuario1);
+                                NavHostFragment.findNavController(EditarUsuarioFragment.this).popBackStack();
+                            } else {
+                                Toast.makeText(getContext(), "Ya existe un usuario con ese correo", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    });
+                } else {
+                    Toast.makeText(getContext(), "No se puede dejar espacios vacios", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -102,7 +102,7 @@ public class EditarCategoriaFragment extends Fragment {
                 if(img !=null && !nombre.equals("")){
                     Bitmap finalImg = img;
                     categoriaViewModel.getCategoria(Long.parseLong(id)).observe(getViewLifecycleOwner(), categoria -> {
-                        String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(), finalImg));
+                        String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(), finalImg),categoria.getImagen());
                         categoria.setNombre(nombre);
                         categoria.setImagen(url_img);
                         categoriaViewModel.update(categoria);

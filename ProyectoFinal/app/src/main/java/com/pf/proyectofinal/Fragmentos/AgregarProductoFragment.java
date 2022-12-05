@@ -120,7 +120,7 @@ public class AgregarProductoFragment extends Fragment {
                 if(categoria != null && img != null && !prec_producto.equals("") && !desc_producto.equals("")){
                     Bitmap finalImg = img;
                     categoriaViewModel.getCategoriaByName(categoria.toString()).observe(getViewLifecycleOwner(), categoria1 -> {
-                        String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(), finalImg));
+                        String url_img = firebaseServicios.uploadFile(firebaseServicios.getImageUri(getContext(), finalImg),null);
                         Producto p = null;
 
                         if(id == 0) {

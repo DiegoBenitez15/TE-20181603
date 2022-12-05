@@ -28,6 +28,11 @@ public class CategoriaViewModel extends AndroidViewModel {
         return lista_categoria;
     }
 
+    public LiveData<List<Categoria>> getCategoriaBusqueda(String palabra) {
+        return categoriaRepositorio.getCategoriaBusqueda(palabra);
+    }
+
+
     public LiveData<Categoria> getCategoria(long id) {
         return categoriaRepositorio.getCategoria(id);
     }

@@ -92,7 +92,7 @@ public class CategoriaAdapter extends RecyclerView.Adapter<CategoriaAdapter.Item
                             Bundle bundle = new Bundle();
                             bundle.putString("id",String.valueOf(categoria.getId()));
                             NavHostFragment.findNavController(listadoCategoriaFragment)
-                                    .navigate(R.id.action_nav_categorias_to_nav_editar_categorias);
+                                    .navigate(R.id.action_nav_categorias_to_nav_editar_categorias,bundle);
                         }else {
 
                             productoViewModel.getProductoByCategoria(categoria.getId()).observe(listadoCategoriaFragment.getViewLifecycleOwner(),productos -> {

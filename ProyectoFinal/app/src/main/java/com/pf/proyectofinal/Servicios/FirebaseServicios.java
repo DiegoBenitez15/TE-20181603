@@ -43,10 +43,18 @@ public class FirebaseServicios {
         return null;
     }
 
-    public String uploadFile(Uri imagUri) {
+    public String uploadFile(Uri imagUri,String url) {
         if (imagUri != null) {
-            final StorageReference imageRef = sref.getReference().child("android/media") // folder path in firebase storage
-                    .child(imagUri.getLastPathSegment());
+            String ref;
+
+            if(url == null) {
+               ref = "android/media/" + imagUri.getLastPathSegment();
+            }
+            else{
+                ref = url;
+            }
+
+            StorageReference imageRef = sref.getReference().child(ref);
 
             imageRef.putFile(imagUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -64,7 +72,7 @@ public class FirebaseServicios {
                             // show message on failure may be network/disk ?
                         }
                     });
-            return "android/media/" + imagUri.getLastPathSegment();
+            return ref;
         }
         return null;
     }

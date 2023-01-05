@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragmentos.IniciarSesionFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="381dp"
+            android:layout_height="704dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15sp"
+                    android:text="E-Soccer"
+                    android:textAlignment="center"
+                    android:textSize="24sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp">
+
+                    <ImageView
+                        android:id="@+id/img_perfil2"
+                        android:layout_width="150sp"
+                        android:layout_height="150sp"
+                        android:onClick="clickFoto"
+                        android:src="@drawable/ic_launcher_background"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/nmbr_perfil2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginRight="15sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:hint="Ingresar Nombre"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/usuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginRight="15sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:hint="Ingresar Usuario"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/corr_perfil2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginRight="15sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:hint="Insertar Correo"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/contrasena"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginRight="15sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:hint="Ingresar Contraseña"
+                    android:inputType="textPassword" />
+
+                <EditText
+                    android:id="@+id/contrasena2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginRight="15sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:hint="Confirmar Contraseña"
+                    android:inputType="textPassword"/>
+
+                <EditText
+                    android:id="@+id/cnt_perfil2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="5sp"
+                    android:layout_marginRight="15sp"
+                    android:layout_marginBottom="5sp"
+                    android:ems="10"
+                    android:hint="Ingresar Contacto"
+                    android:inputType="numberSigned"  />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="77dp">
+
+                <Button
+                    android:id="@+id/crear_producto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="registarUsuario"
+                    android:text="Registrar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="62dp">
+
+                <LinearLayout
+                    android:layout_width="230dp"
+                    android:layout_height="41dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="97dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10sp"
+                        android:onClick="olvidarContrasena"
+                        android:text="¿Olvido su contrasena?"
+                        android:textAlignment="center"
+                        android:textColor="#2196F3"
+                        android:textColorHighlight="#03A9F4" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:layout_weight="1"
+                        android:onClick="iniciarSesion"
+                        android:text="Iniciar nueva sesion"
+                        android:textAlignment="center"
+                        android:textColor="#2196F3" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

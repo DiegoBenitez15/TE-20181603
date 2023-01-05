@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.pf.proyectofinal.Actividades.ui.home.HomeFragment"
+        android:label="Inicio"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_buscar"
+            app:destination="@id/nav_buscar" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_perfil"
+            app:destination="@id/nav_perfil" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_categorias"
+            app:destination="@id/nav_categorias" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_productos"
+            app:destination="@id/nav_productos" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_cart"
+            app:destination="@id/nav_cart" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_notification"
+            app:destination="@id/nav_notification" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_help"
+            app:destination="@id/nav_help" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_productos"
+        android:name="com.pf.proyectofinal.Fragmentos.ListadoProductoFragment"
+        android:label="Listado Producto"
+        tools:layout="@layout/fragment_listado_producto" >
+        <action
+            android:id="@+id/action_nav_productos_to_nav_agregar_productos"
+            app:destination="@id/nav_agregar_productos" />
+        <action
+            android:id="@+id/action_nav_productos_to_nav_editar_productos"
+            app:destination="@id/nav_editar_productos" />
+        <action
+            android:id="@+id/action_nav_productos_to_nav_descripcion_productos"
+            app:destination="@id/nav_descripcion_productos" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_agregar_productos"
+        android:name="com.pf.proyectofinal.Fragmentos.AgregarProductoFragment"
+        android:label="Agregar Producto"
+        tools:layout="@layout/fragment_agregar_producto" />
+
+    <fragment
+        android:id="@+id/nav_editar_productos"
+        android:name="com.pf.proyectofinal.Fragmentos.EditarProductoFragment"
+        android:label="Editar Producto"
+        tools:layout="@layout/fragment_editar_producto" />
+
+    <fragment
+        android:id="@+id/nav_descripcion_productos"
+        android:name="com.pf.proyectofinal.Fragmentos.DescripcionProductoFragment"
+        android:label="Descripcion Producto"
+        tools:layout="@layout/fragment_descripcion_producto" />
+
+
+    <fragment
+        android:id="@+id/nav_categorias"
+        android:name="com.pf.proyectofinal.Fragmentos.ListadoCategoriaFragment"
+        android:label="Listado Categoria"
+        tools:layout="@layout/fragment_listado_categoria" >
+        <action
+            android:id="@+id/action_nav_categorias_to_nav_crear_categorias"
+            app:destination="@id/nav_crear_categorias" />
+        <action
+            android:id="@+id/action_nav_categorias_to_nav_editar_categorias"
+            app:destination="@id/nav_editar_categorias" />
+        <action
+            android:id="@+id/action_nav_categorias_to_nav_productos"
+            app:destination="@id/nav_productos" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_editar_categorias"
+        android:name="com.pf.proyectofinal.Fragmentos.EditarCategoriaFragment"
+        android:label="Editar Categoria"
+        tools:layout="@layout/fragment_editar_categoria" />
+
+    <fragment
+        android:id="@+id/nav_crear_categorias"
+        android:name="com.pf.proyectofinal.Fragmentos.AgregarCategoriaFragment"
+        android:label="Crear Categoria"
+        tools:layout="@layout/fragment_agregar_categoria" />
+
+    <fragment
+        android:id="@+id/nav_buscar"
+        android:name="com.pf.proyectofinal.Fragmentos.BuscarProductoFragment"
+        android:label="Buscar Producto"
+        tools:layout="@layout/fragment_buscar_producto" >
+        <action
+            android:id="@+id/action_nav_buscar_to_nav_descripcion_productos"
+            app:destination="@id/nav_descripcion_productos" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_perfil"
+        android:name="com.pf.proyectofinal.Fragmentos.PerfilUsuarioFragment"
+        android:label="Perfil Usuario"
+        tools:layout="@layout/fragment_perfil_usuario" >
+        <action
+            android:id="@+id/action_nav_perfil_to_nav_editar_perfil"
+            app:destination="@id/nav_editar_perfil" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_editar_perfil"
+        android:name="com.pf.proyectofinal.Fragmentos.EditarUsuarioFragment"
+        android:label="Editar Usuario"
+        tools:layout="@layout/fragment_editar_usuario" />
+
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="com.pf.proyectofinal.Fragmentos.CarroComprasFragment"
+        android:label="Carrito Compra"
+        tools:layout="@layout/fragment_carro_compras" />
+
+    <fragment
+        android:id="@+id/nav_notification"
+        android:name="com.pf.proyectofinal.Fragmentos.NotificacionFragment"
+        android:label="Notificacion"
+        tools:layout="@layout/fragment_notificacion" />
+
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="com.pf.proyectofinal.Fragmentos.AyudaFragment"
+        android:label="Notificacion"
+        tools:layout="@layout/fragment_ayuda" />
+
+
+
+</navigation>
